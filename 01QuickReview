@@ -1,0 +1,138 @@
+https://hirotanoblog.com/linux-disk-usage/12766/
+Linux】 ディスク使用量の表示（df / du / ncdu）
+    $ df -h
+      “df “は “disk free “の略で、
+      -hオプションを使うと、より人間が読みやすい出力形式で表示されます。
+      
+      ファイルシステム（Filesystem）：ファイルシステム名を表示
+      サイズ（Size）：ファイルシステムの総サイズを表示
+      使用量（Used）：ファイルシステムが現在使用しているディスク容量を表示
+      残量（Avail）：ファイルシステムで残り利用可能なディスク容量を表示
+      使用率（Use%）：ファイルシステムのディスク使用率を表示
+      マウント先（Mounted on）：ファイルシステムのマウントポイントを表示
+    
+    $ df -h –total
+      「–total」オプションを付けると、空き容量など、合計値もあわせて表示してくれます。
+
+
+
+https://eng-entrance.com/linux-mount
+この１ページで一通りわかる！Linuxのマウント(mount)について
+    しかしLinuxにはドライブレターという概念はない。
+    イメージとしては「/」から始まるディレクトリツリー、
+    「樹木構造（階層構造）」に記憶媒体という「枝」を追加する
+    というのを想像してもらえるとわかりやすいだろう。
+
+
+
+https://webkaru.net/linux/mount-command/
+mount - ファイルシステムをマウントする - Linuxコマンド
+    # mount -t ext3 /dev/sda6 /mnt/tmp
+      mount [オプション] [デバイス] [ディレクトリ]
+      デバイス（/dev/sda6）をファイルタイプ ext3で、ディレクトリ（/mnt/tmp）にマウントします
+
+
+
+https://kazmax.zpp.jp/linux_beginner/lin1.html
+Home → Linux 基礎知識（目次） → Linux ユーザとグループ
+    [hoge@localhost ~]$ id
+    uid=500(hoge) gid=501(hoge) 所属グループ=501(hoge),502(hoge2)
+    ↑ ユーザ名：hoge、グループ：hogeという意味
+    
+    [hoge@localhost ~]$ groups
+    hoge hoge1 hoge2← hogeグループ、hoge1グループ、hoge2グループに所属しているという意味
+
+
+
+https://kazmax.zpp.jp/linux_beginner/etc_passwd.html
+    [hogehoge@localhost ~]$ cat /etc/passwd
+    root:x:0:0:root:/root:/bin/bash
+    bin:x:1:1:bin:/bin:/sbin/nologin
+    daemon:x:2:2:daemon:/sbin:/sbin/nologin
+
+
+
+https://kazmax.zpp.jp/linux_beginner/su.html
+    [user1@localhost ~]$ id
+    uid=500(user1) gid=500(user1) 所属グループ=500(user1) 
+    
+    [user1@localhost ~]$ su - test_user  ← 切り替えるユーザーを指定
+    パスワード:  ← test_userユーザーのパスワード
+    
+    [test_user@localhost user1]$ id
+    uid=501(test_user) gid=501(test_user) 所属グループ=501(test_user)
+
+
+
+https://kazmax.zpp.jp/linux_beginner/permission.html
+ファイル・ディレクトリのアクセス権限
+    $ ls -l
+    合計 28
+    drwxrwxr-x 2 test_user group1 4096  6月 28 08:42 dir1
+
+
+
+https://kazmax.zpp.jp/linux_beginner/chown.html
+ファイル・ディレクトリの所有者とグループを変更する - chown
+    所有者をuser1から、user2に変更する
+        $ ls -l
+        合計 4
+        -rw-r--r-- 1 user1 group1 0  7月 22 08:50 test.txt
+        
+        $ chown user2 test.txt
+        $ ls -l
+        合計 4
+        -rw-r--r-- 1 user2 group1 0  7月 22 08:50 test.txt ← 所有者がuser2に変わった
+
+    所有者をuser2に、グループをgroup2に変更する
+        $ chown -c user2:group2 test.txt
+        `test.txt' の所有者を user2:group2 に変更しました ← 「-c」オプションで変更内容が表示される。
+        
+        $ ls -l
+        合計 4
+        -rw-r--r-- 1 user2 group2 0  7月 22 08:50 test.txt ← 所有者がuser2、グループがgroup2に変わった
+
+
+
+https://kazmax.zpp.jp/linux_beginner/chmod.html
+アクセス権（パーミッション）の変更 -  chmod
+    数値モード
+        ■　パーミッションを755に。
+        $ chmod 755 test.txt
+        $ ls -l
+        合計 4
+        -rwxr-xr-x 1 test_user test_user 0  7月 22 10:00 test.txt
+    
+    シンボルモード
+        ■「グループ」に書き込み権限を追加
+        $ chmod g+w test.txt
+        $ ls -l
+        合計 4
+        -rwxrwxr-x 1 test_user test_user 0  7月 22 10:00 test.txt
+    
+    ■「グループ」と「その他」のアクセス権から実行権限を削除
+        $ chmod go-x test.txt
+        $ ls -l
+        合計 4
+        -rwxrw-r-- 1 test_user test_user 0  7月 22 10:00 test.txt
+
+
+
+https://atmarkit.itmedia.co.jp/ait/articles/1706/30/news018.html
+ top 】コマンド――実行中のプロセスをリアルタイムで表示する
+
+
+
+https://qiita.com/supersaiakujin/items/c6b54e9add21d375161f
+    圧縮
+    tar -zcvf xxxx.tar.gz directory
+    解凍
+    tar -zxvf xxxx.tar.gz
+
+    c	新しいtarファイルを作る (create)
+    v	圧縮・解凍状況を表示(verbose)
+    f	圧縮ファイル名指定 (filename)
+    x	解凍 (extract)
+    z	gz
+    j	bz2
+    J	xz
